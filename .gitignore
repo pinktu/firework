@@ -3,4 +3,4 @@ build/
 dist/
 __pycache__
 firework.spec
-img/*.png
+lib/*.png
