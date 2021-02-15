@@ -14,7 +14,8 @@ sendMsgPos = []
 # 获取文件截图
 def getScreen(fileName):
     screenInfo = "/sdcard/{}.png".format(fileName)
-    fileSavePath = "{}\\img\\{}.png".format(sys.path[0], fileName)
+    # fileSavePath = "{}\\lib\\{}.png".format(sys.path[0], fileName)
+    fileSavePath = ".\\lib\\{}.png".format(fileName)
     screenCmd = "{} {} {}".format(execPath, screenPath, screenInfo)
     pullCmd = "{} pull {} {}".format(execPath, screenInfo, fileSavePath)
     global screenImgNum
@@ -50,7 +51,7 @@ def saveTapPos(event, x, y, flags, param):
 
 # 展示截图选择数据
 def showScreenImg(fileName):
-    imagePath = os.path.join("img/{}.png".format(fileName))
+    imagePath = "./lib/{}.png".format(fileName)
     img = cv.imread(imagePath)
     height, width, _ = img.shape
     resizedImg = cv.resize(img, (width//2, height//2))
@@ -85,7 +86,7 @@ if __name__ == '__main__':
     # 截图命令
     screenPath = "shell /system/bin/screencap -p"
     # 执行次数
-    times = 99
+    times = 666
     # 执行间隔时间(单位:秒)
     sleepTime = 0.3
 
