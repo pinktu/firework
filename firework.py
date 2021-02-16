@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import os
 import sys
 import time
@@ -61,6 +62,7 @@ def showScreenImg(fileName):
         cv.imshow("screen", resizedImg)
         k = cv.waitKey(1)
         if k == 27:
+            cv.destroyWindow('screen')
             break
     if screenImgNum == 1:
         time.sleep(1)
@@ -71,7 +73,7 @@ def showScreenImg(fileName):
 
 def start():
     for num in range(0, times):
-        print(num)
+        print("第{}次执行".format(num+1))
         time.sleep(sleepTime)
         if num != 0:
             touchHandler(addMsgPos[0], addMsgPos[1])
@@ -86,7 +88,8 @@ if __name__ == '__main__':
     # 截图命令
     screenPath = "shell /system/bin/screencap -p"
     # 执行次数
-    times = int(input("Please enter the number of executions: "))
+    # times = 100
+    times = int(input("请输入执行次数："))
     # 执行间隔时间(单位:秒)
     sleepTime = 0.3
 
