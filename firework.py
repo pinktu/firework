@@ -41,11 +41,11 @@ def saveTapPos(event, x, y, flags, param):
     if event == cv.EVENT_LBUTTONDOWN:
         if screenImgNum == 1:
             global addMsgPos
-            addMsgPos = [x*2, y*2]
+            addMsgPos = [x*resize, y*resize]
             print('addMsgPos', addMsgPos)
         elif screenImgNum > 1:
             global sendMsgPos
-            sendMsgPos = [x*2, y*2]
+            sendMsgPos = [x*resize, y*resize]
             print('sendMsgPos', sendMsgPos)
         cv.circle(param, (x, y), 10, (22, 255, 0), -1)
 
@@ -55,7 +55,7 @@ def showScreenImg(fileName):
     imagePath = "./lib/{}.png".format(fileName)
     img = cv.imread(imagePath)
     height, width, _ = img.shape
-    resizedImg = cv.resize(img, (width//2, height//2))
+    resizedImg = cv.resize(img, (width//resize, height//resize))
     cv.namedWindow('screen')
     cv.setMouseCallback('screen', saveTapPos, resizedImg)
     while 1:
@@ -90,6 +90,7 @@ if __name__ == '__main__':
     # 执行次数
     # times = 100
     times = int(input("请输入执行次数："))
+    resize = int(input("请输入图片展示缩放倍数："))
     # 执行间隔时间(单位:秒)
     sleepTime = 0.3
 
