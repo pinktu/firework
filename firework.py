@@ -47,7 +47,7 @@ def saveTapPos(event, x, y, flags, param):
             global sendMsgPos
             sendMsgPos = [x*resize, y*resize]
             print('sendMsgPos', sendMsgPos)
-        cv.circle(param, (x, y), 10, (22, 255, 0), -1)
+        cv.circle(param, (x, y), 10, (132, 112, 255), -1)
 
 
 # 展示截图选择数据
