@@ -63,7 +63,7 @@ def showScreenImg(fileName):
         if k == 27:
             break
     if screenImgNum == 1:
-        time.sleep(3)
+        time.sleep(1)
         touchHandler(addMsgPos[0], addMsgPos[1])
     elif screenImgNum > 1:
         start()
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     # 截图命令
     screenPath = "shell /system/bin/screencap -p"
     # 执行次数
-    times = 666
+    times = int(input("Please enter the number of executions: "))
     # 执行间隔时间(单位:秒)
     sleepTime = 0.3
 
