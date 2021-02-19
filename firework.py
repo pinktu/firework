@@ -15,7 +15,6 @@ sendMsgPos = []
 # 获取文件截图
 def getScreen(fileName):
     screenInfo = "/sdcard/{}.png".format(fileName)
-    # fileSavePath = "{}\\lib\\{}.png".format(sys.path[0], fileName)
     fileSavePath = ".\\lib\\{}.png".format(fileName)
     screenCmd = "{} {} {}".format(execPath, screenPath, screenInfo)
     pullCmd = "{} pull {} {}".format(execPath, screenInfo, fileSavePath)
@@ -39,14 +38,13 @@ def touchHandler(row, col):
 # 保存截图点击坐标
 def saveTapPos(event, x, y, flags, param):
     if event == cv.EVENT_LBUTTONDOWN:
-        if screenImgNum == 1:
-            global addMsgPos
-            addMsgPos = [x*resize, y*resize]
-            print('addMsgPos', addMsgPos)
-        elif screenImgNum > 1:
+        # 当图片数量大于点击次数
+        if screenImgNum > touchTimes:
             global sendMsgPos
             sendMsgPos = [x*resize, y*resize]
-            print('sendMsgPos', sendMsgPos)
+        else:
+            global addMsgPos
+            addMsgPos.append([x*resize, y*resize])
         cv.circle(param, (x, y), 10, (132, 112, 255), -1)
 
 
@@ -64,19 +62,23 @@ def showScreenImg(fileName):
         if k == 27:
             cv.destroyWindow('screen')
             break
-    if screenImgNum == 1:
-        time.sleep(1)
-        touchHandler(addMsgPos[0], addMsgPos[1])
-    elif screenImgNum > 1:
+    if screenImgNum > touchTimes:
         start()
+    elif screenImgNum == 1:
+        time.sleep(1)
+        touchHandler(addMsgPos[0][0], addMsgPos[0][1])
+    else:
+        getScreen("msgScreen{}".format(screenImgNum))
 
 
+# 循环执行信息发送
 def start():
     for num in range(0, times):
         print("第{}次执行".format(num+1))
         time.sleep(sleepTime)
         if num != 0:
-            touchHandler(addMsgPos[0], addMsgPos[1])
+            index = num % touchTimes
+            touchHandler(addMsgPos[index][0], addMsgPos[index][1])
         touchHandler(sendMsgPos[0], sendMsgPos[1])
 
 
@@ -87,11 +89,13 @@ if __name__ == '__main__':
     tapCmd = "{} shell input tap".format(execPath)
     # 截图命令
     screenPath = "shell /system/bin/screencap -p"
-    # 执行次数
-    # times = 100
-    times = int(input("请输入执行次数："))
-    resize = int(input("请输入图片展示缩放倍数："))
     # 执行间隔时间(单位:秒)
     sleepTime = 0.3
+    # 执行次数
+    times = int(input("请输入执行次数："))
+    # 设置截图缩放比例
+    resize = int(input("请输入图片展示缩放倍数："))
+    # 选择点击次数
+    touchTimes = int(input("请输入点击表情次数："))
 
     getScreen('msgScreen')
