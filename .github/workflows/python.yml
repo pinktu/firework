@@ -23,6 +23,7 @@ jobs:
         env:
           ACTION_DEPLOY_KEY: ${{ secrets.PINKTU_PYTHON }}
         run: |
+          git pull
           git checkout publish
           mv dist/* ../
           mkdir -p ~/.ssh/
