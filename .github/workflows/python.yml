@@ -23,15 +23,15 @@ jobs:
         env:
           ACTION_DEPLOY_KEY: ${{ secrets.PINKTU_PYTHON }}
         run: |
+          git config --global user.name 'pinktu'
+          git config --global user.email 'chenbiuxiu@gmail.com'
           git pull
           git checkout publish
-          mv dist/* ../
+          mv dist/* .
           mkdir -p ~/.ssh/
           echo "$ACTION_DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git config --global user.name 'pinktu' # 换成你自己的邮箱和名字
-          git config --global user.email 'chenbiuxiu@gmail.com'
           git add *
           git commit -m 编译执行文件
           git push
