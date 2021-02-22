@@ -14,11 +14,16 @@ jobs:
           python-version: 3.9
       - name: Install dependencies
         run: |
+          mkdir -p ~/.ssh/
+          echo "$ACTION_DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
           python -m pip install --upgrade pip
           pip install opencv-python pyinstaller
       - name: build exe
         run: |
           pyinstaller -F fireWork.spec
+
       - name: publish exe
         env:
           ACTION_DEPLOY_KEY: ${{ secrets.PINKTU_PYTHON }}
@@ -28,13 +33,7 @@ jobs:
           git pull
           git checkout publish
           mv dist/* .
-          mkdir -p ~/.ssh/
-          echo "$ACTION_DEPLOY_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          rm -rf __pycache__ build dist
           git add *
           git commit -m 编译执行文件
           git push
-          
-
-
